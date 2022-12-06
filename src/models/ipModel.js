@@ -1,5 +1,9 @@
-module.exports = (sequelize, Sequelize) => {
-    const Ip = sequelize.define("ip", {
+const Sequelize = require("sequelize");
+const sequelize = require("../config/sequelize.js");
+
+const Ip = sequelize.define(
+    "ip", 
+    {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -10,10 +14,12 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(15),
             allowNull: false
         }
-    }, {
+    },
+    {
         timestamps: false,
         freezeTableName: true,
         tableName: "ip"
-    });
-    return Ip;
-}
+    }
+);
+
+module.exports = Ip;

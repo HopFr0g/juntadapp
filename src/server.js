@@ -1,26 +1,46 @@
+const sequelize = require("./config/sequelize.js");
+
 const express = require("express");
 const app = express();
 
-// Cargar modelos de sequelize y sincronizar ORM con la BD:
+/* ---------------------------------------------------------------------------
+|                                                                            |
+|        Import de "routes" (endpoints definidos para la aplicación):        |
+|                                                                            |
+--------------------------------------------------------------------------- */
 
-const db = require("./models");
+const ipRoutes = require("./routes/ipRoutes.js");
 
-db.sequelize.sync()
-    .then(() => {
-        console.log("App sincronizada con la BD exitosamente.");
-    })
-    .catch((err) => {
-        console.log("Error al sincronizar app con la BD: " + err.message);
+app.use("/api/ip", ipRoutes);
+
+/* ---------------------------------------------------------------------------
+|                                                                            |
+|                      Express settings y middlewares:                       |
+|                                                                            |
+----------------------------------------------------------------------------*/
+
+
+
+/* ---------------------------------------------------------------------------
+|                                                                            |
+|                   Inicialización de Express y Sequelize:                   |
+|                                                                            |
+--------------------------------------------------------------------------- */
+
+const main = async () => {
+    // Sincronizar sequelize con BD:
+    try {
+        await sequelize.sync();
+        console.log("App sincronizada con la DB exitosamente.");
+    } catch (error) {
+        console.error(`Error al sincronizar App con la BD: ${error}`);
+    }
+    
+    // Poner puerto a la escucha de las requests entrantes:
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`App iniciada en el puerto ${PORT}.`);
     });
+}
 
-// Inicializar puerto a la escucha de requests HTTP entrantes:
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`App iniciada en el puerto ${PORT}`);
-});
-
-// Rutas:
-
-require("./routes/ip.routes")(app);
+main();
