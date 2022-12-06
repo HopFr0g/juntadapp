@@ -1,0 +1,32 @@
+{
+  "name": "juntadapp",
+  "version": "0.0.1",
+  "description": "Aplicación para organizar reuniones.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HopFr0g/juntadapp.git"
+  },
+  "keywords": [
+    "organizar",
+    "reunión",
+    "día",
+    "coincidencia",
+    "juntada"
+  ],
+  "author": "HopFr0g",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HopFr0g/juntadapp/issues"
+  },
+  "homepage": "https://github.com/HopFr0g/juntadapp#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.26.0",
+    "sqlite3": "^5.1.2"
+  }
+}
