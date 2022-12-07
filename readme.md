@@ -10,6 +10,10 @@ Contiene un archivo local con la base de datos *sqlite3* propia de este sistema.
 
 Aquí se inicializa *express* y se define qué puerto estará a la escucha de las *request HTTP* entrantes. También se inicializa *sequelize*.
 
+## ./src/config/sequelize.js
+
+Configuración de la conexión del ORM *sequelize* con la base de datos.
+
 ## ./src/controllers/
 
 Contiene los métodos que controlan las *requests* realizadas y envían la respuesta al cliente. Los métodos *controller* llamarán al método *service* que corresponda.
@@ -17,10 +21,6 @@ Contiene los métodos que controlan las *requests* realizadas y envían la respu
 ## ./src/models
 
 Las clases modelo representan entidades de la base de datos. Definen los objetos que *mapean* cada tabla de la base de datos.
-
-## ./src/models/index.js
-
-Configuración de la conexión del ORM *sequelize* con la base de datos.
 
 ## ./src/routes/
 

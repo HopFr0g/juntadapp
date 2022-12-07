@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
 const Ip = sequelize.define(
-    "ip", 
+    "ip",
     {
         id: {
             type: Sequelize.INTEGER,

@@ -1,11 +1,20 @@
+const constants = require("../util/constants.js");
+const responseBuilder = require("../util/responseBuilder.js");
+
 const ipService = require("../services/ipService.js");
 
-const findAll = async (req, res) => {
-    let allIps = await ipService.findAll();
+const findAllIps = async (req, res) => {
+    let response;
     
-    res.send(allIps);
+    try {
+        response = await ipService.findAllIps();
+    } catch (error) {
+        response = responseBuilder.getBadResponse(constants.ERROR_INESPERADO, error, 500);
+    }
+    
+    res.status(response.status).json(response);
 }
 
 module.exports = {
-    findAll
+    findAllIps
 };
