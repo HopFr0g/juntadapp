@@ -10,8 +10,10 @@ const app = express();
 --------------------------------------------------------------------------- */
 
 const ipRoutes = require("./routes/ipRoutes.js");
+const reunionRoutes = require("./routes/reunionRoutes");
 
 app.use("/api/ip", ipRoutes);
+app.use("/api/reunion", ipRoutes);
 
 /* ---------------------------------------------------------------------------
 |                                                                            |

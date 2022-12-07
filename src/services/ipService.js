@@ -1,7 +1,7 @@
 const constants = require("../util/constants.js");
 const responseBuilder = require("../util/responseBuilder.js");
 
-const Ip = require("../models/ipModel.js");
+const Ip = require("../models/Ip.js");
 
 const findAllIps = async () => {
     console.log("findAllIps enter...");

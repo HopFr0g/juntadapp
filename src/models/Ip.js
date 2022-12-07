@@ -5,12 +5,14 @@ const Ip = sequelize.define(
     "ip",
     {
         id: {
+            field: "id",
             type: Sequelize.INTEGER,
+            allowNull: false,
             primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
+            autoIncrement: true
         },
         ipv4: {
+            field: "ipv4",
             type: Sequelize.STRING(15),
             allowNull: false
         }
