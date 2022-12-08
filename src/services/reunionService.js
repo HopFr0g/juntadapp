@@ -15,13 +15,38 @@ const findAllReuniones = async () => {
         res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allReuniones);
     } catch (error) {
         console.error(error);
-        res = responseBuilder.getBadResponse(constants.ENTIDADES_NO_ENCONTRADAS, error, 500);
+        res = responseBuilder.getBadResponse(error, 500);
     }
     
     console.log("findAllReuniones exit...");
     return res;
 };
 
+const findReunionById = async id => {
+    console.log("findReunionById enter...");
+    let res;
+    
+    try {
+        let reunion = await Reunion.findOne({
+            include: "ip",
+            attributes: ["id", "hash", "nombre", "descripcion", "fechaCreacion"],
+            where: {
+                id
+            }
+        });
+        if (reunion == null)
+            throw constants.ENTIDAD_NO_ENCONTRADA + id;
+        res = responseBuilder.getOkResponse(constants.ENTIDAD_ENCONTRADA + id, reunion);
+    } catch (error) {
+        console.error(error);
+        res = responseBuilder.getBadResponse(error, 500);
+    }
+    
+    console.log("findReunionById exit...");
+    return res;
+};
+
 module.exports = {
-    findAllReuniones
+    findAllReuniones,
+    findReunionById
 };

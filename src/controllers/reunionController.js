@@ -9,12 +9,26 @@ const findAllReuniones = async (req, res) => {
     try {
         response = await reunionService.findAllReuniones();
     } catch (error) {
-        response = responseBuilder.getBadResponse(constants.ERROR_INESPERADO, error, 500);
+        response = responseBuilder.getBadResponse(error, 500);
+    }
+    
+    res.status(response.status).json(response);
+}
+
+const findReunionById = async (req, res) => {
+    let response;
+    
+    try {
+        let id = req.params.id;
+        response = await reunionService.findReunionById(id);
+    } catch (error) {
+        response = responseBuilder.getBadResponse(error, 500);
     }
     
     res.status(response.status).json(response);
 }
 
 module.exports = {
-    findAllReuniones
+    findAllReuniones,
+    findReunionById
 };

@@ -19,13 +19,12 @@ const getOkResponse = (message, elements) => {
     return res;
 }
 
-const getBadResponse = (message, error, status) => {
+const getBadResponse = (message, status) => {
     let res = new Object();
     
     res.ok = false;
     res.status = status;
     res.message = message;
-    res.error = error;
     res.elements = new Array();
     res.size = 0;
     

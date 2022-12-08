@@ -9,7 +9,7 @@ const findAllIps = async (req, res) => {
     try {
         response = await ipService.findAllIps();
     } catch (error) {
-        response = responseBuilder.getBadResponse(constants.ERROR_INESPERADO, error, 500);
+        response = responseBuilder.getBadResponse(error, 500);
     }
     
     res.status(response.status).json(response);

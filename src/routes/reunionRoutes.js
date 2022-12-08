@@ -4,5 +4,6 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", reunionController.findAllReuniones);
+router.get("/:id", reunionController.findReunionById);
 
 module.exports = router;

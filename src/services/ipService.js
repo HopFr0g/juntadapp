@@ -12,7 +12,7 @@ const findAllIps = async () => {
         res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allIps);
     } catch (error) {
         console.error(error);
-        res = responseBuilder.getBadResponse(constants.ENTIDADES_NO_ENCONTRADAS, error, 500);
+        res = responseBuilder.getBadResponse(error, 500);
     }
     
     console.log("findAllIps exit...");
