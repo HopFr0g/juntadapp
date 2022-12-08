@@ -8,7 +8,10 @@ const findAllReuniones = async () => {
     let res;
     
     try {
-        let allReuniones = await Reunion.findAll();
+        let allReuniones = await Reunion.findAll({
+            include: "ip",
+            attributes: ["id", "hash", "nombre", "descripcion", "fechaCreacion"]
+        });
         res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allReuniones);
     } catch (error) {
         console.error(error);

@@ -9,11 +9,8 @@ const app = express();
 |                                                                            |
 --------------------------------------------------------------------------- */
 
-const ipRoutes = require("./routes/ipRoutes.js");
-const reunionRoutes = require("./routes/reunionRoutes");
-
-app.use("/api/ip", ipRoutes);
-app.use("/api/reunion", ipRoutes);
+app.use("/api/ip", require("./routes/ipRoutes.js"));
+app.use("/api/reunion", require("./routes/reunionRoutes"));
 
 /* ---------------------------------------------------------------------------
 |                                                                            |
@@ -32,7 +29,9 @@ app.use("/api/reunion", ipRoutes);
 const main = async () => {
     // Sincronizar sequelize con BD:
     try {
-        await sequelize.sync();
+        await sequelize.sync({
+            force: false
+        });
         console.log("App sincronizada con la DB exitosamente.");
     } catch (error) {
         console.error(`Error al sincronizar App con la BD: ${error}`);

@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
+const Ip = require("./Ip.js");
+
 const Reunion = sequelize.define(
     "reunion",
     {
@@ -45,6 +47,14 @@ const Reunion = sequelize.define(
         timestamps: false,
         freezeTableName: true,
         tableName: "reunion"
+    }
+);
+
+Reunion.belongsTo(
+    Ip,
+    {
+        foreignKey: "id_ip",
+        foreignKeyConstraint: true
     }
 );
 
