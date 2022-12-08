@@ -8,7 +8,9 @@ const findAllIps = async () => {
     let res;
     
     try {
-        let allIps = await Ip.findAll();
+        let allIps = await Ip.findAll({
+            include: "reuniones"
+        });
         res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allIps);
     } catch (error) {
         console.error(error);

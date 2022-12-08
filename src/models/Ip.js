@@ -14,7 +14,8 @@ const Ip = sequelize.define(
         ipv4: {
             field: "ipv4",
             type: Sequelize.STRING(15),
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },
     {

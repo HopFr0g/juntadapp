@@ -19,8 +19,19 @@ const findReunionById = async (req, res) => {
     let response;
     
     try {
-        let id = req.params.id;
-        response = await reunionService.findReunionById(id);
+        response = await reunionService.findReunionById(req);
+    } catch (error) {
+        response = responseBuilder.getBadResponse(error, 500);
+    }
+    
+    res.status(response.status).json(response);
+}
+
+const createReunion = async (req, res) => {
+    let response;
+    
+    try {
+        response = await reunionService.createReunion(req);
     } catch (error) {
         response = responseBuilder.getBadResponse(error, 500);
     }
@@ -30,5 +41,6 @@ const findReunionById = async (req, res) => {
 
 module.exports = {
     findAllReuniones,
-    findReunionById
+    findReunionById,
+    createReunion
 };

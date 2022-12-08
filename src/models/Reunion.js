@@ -39,8 +39,7 @@ const Reunion = sequelize.define(
         },
         fechaCreacion: {
             field: "fecha_creacion",
-            type: Sequelize.TEXT,
-            allowNull: false
+            type: Sequelize.TEXT
         }
     },
     {
@@ -53,8 +52,16 @@ const Reunion = sequelize.define(
 Reunion.belongsTo(
     Ip,
     {
-        foreignKey: "id_ip",
+        foreignKey: "idIp",
         foreignKeyConstraint: true
+    }
+);
+
+Ip.hasMany(
+    Reunion,
+    {
+        foreignKey: "idIp",
+        as: "reuniones"
     }
 );
 

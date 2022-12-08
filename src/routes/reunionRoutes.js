@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/", reunionController.findAllReuniones);
 router.get("/:id", reunionController.findReunionById);
+router.post("/", reunionController.createReunion);
 
 module.exports = router;

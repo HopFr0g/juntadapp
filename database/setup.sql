@@ -2,7 +2,8 @@
 
 create table ip(
     id              integer         primary key,
-    ipv4            varchar(15)     not null
+    ipv4            varchar(15)     not null,
+    unique(ipv4)
 );
 
 create table reunion(
@@ -60,3 +61,10 @@ create table persona_mes(
     foreign key(id_mes) references mes(id),
     unique(id_persona, id_mes, dia_del_mes)
 );
+
+------------------------  DML  ------------------------
+
+insert into ip(ipv4) values('127.0.0.1');
+insert into ip(ipv4) values('192.168.0.1');
+
+insert into reunion(id_ip, hash, nombre) values(1, 'z03h6Twjd84J6aWKd9195na0wlEm392n', 'Reunión de Ejemplo');

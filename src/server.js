@@ -3,27 +3,30 @@ const sequelize = require("./config/sequelize.js");
 const express = require("express");
 const app = express();
 
+const cors = require("cors");
+
 /* ---------------------------------------------------------------------------
-|                                                                            |
+|                      Express settings y middlewares:                       |
+----------------------------------------------------------------------------*/
+
+// Filtro CORS (Para servidores públicos):
+app.use(cors({origin: "*"}));
+
+// Acceder al body de la request:
+app.use(express.json());
+
+// Acceder a la IP de la request:
+app.set("trust proxy", true);
+
+/* ---------------------------------------------------------------------------
 |        Import de "routes" (endpoints definidos para la aplicación):        |
-|                                                                            |
 --------------------------------------------------------------------------- */
 
 app.use("/api/ip", require("./routes/ipRoutes.js"));
 app.use("/api/reunion", require("./routes/reunionRoutes"));
 
 /* ---------------------------------------------------------------------------
-|                                                                            |
-|                      Express settings y middlewares:                       |
-|                                                                            |
-----------------------------------------------------------------------------*/
-
-
-
-/* ---------------------------------------------------------------------------
-|                                                                            |
 |                   Inicialización de Express y Sequelize:                   |
-|                                                                            |
 --------------------------------------------------------------------------- */
 
 const main = async () => {
