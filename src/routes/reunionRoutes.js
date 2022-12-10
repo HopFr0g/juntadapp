@@ -3,8 +3,8 @@ const reunionController = require("../controllers/reunionController.js");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", reunionController.findAllReuniones);
-router.get("/:id", reunionController.findReunionById);
-router.post("/", reunionController.createReunion);
+router.get("/", reunionController.findAll);
+router.get("/:id", reunionController.findById);
+router.post("/", reunionController.create);
 
 module.exports = router;

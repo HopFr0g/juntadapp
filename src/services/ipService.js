@@ -1,26 +1,67 @@
 const constants = require("../util/constants.js");
-const responseBuilder = require("../util/responseBuilder.js");
 
 const Ip = require("../models/Ip.js");
 
-const findAllIps = async () => {
-    console.log("findAllIps enter...");
-    let res;
-    
+/* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
+
+const findAll = async () => {
     try {
         let allIps = await Ip.findAll({
-            include: "reuniones"
+            // attributes: [],
+            include: ["reuniones"]
         });
-        res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allIps);
+        return allIps;
     } catch (error) {
-        console.error(error);
-        res = responseBuilder.getBadResponse(error, 500);
+        throw error;
     }
-    
-    console.log("findAllIps exit...");
-    return res;
+};
+
+const findById = async id => {
+    try {
+        let ip = await Ip.findOne({
+            // attributes: [],
+            include: ["reuniones"],
+            where: {
+                id
+            }
+        });
+        if (ip == null)
+            throw constants.ENTIDAD_NO_ENCONTRADA + id;
+        return ip;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const findByDireccion = async direccion => {
+    try {
+        let ip = await Ip.findOne({
+            // attributes: [],
+            // include: [],
+            where: {
+                direccion
+            }
+        });
+        if (ip == null)
+            throw constants.ENTIDAD_NO_ENCONTRADA + ipv4;
+        return ip;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const create = async ip => {
+    try {
+        ip = await Ip.create(ip);
+        return ip;
+    } catch (error) {
+        throw error;
+    }
 };
 
 module.exports = {
-    findAllIps
+    findAll,
+    findById,
+    findByDireccion,
+    create
 };

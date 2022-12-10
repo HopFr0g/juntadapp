@@ -23,7 +23,7 @@ app.set("trust proxy", true);
 --------------------------------------------------------------------------- */
 
 app.use("/api/ip", require("./routes/ipRoutes.js"));
-app.use("/api/reunion", require("./routes/reunionRoutes"));
+app.use("/api/reunion", require("./routes/reunionRoutes.js"));
 
 /* ---------------------------------------------------------------------------
 |                   Inicialización de Express y Sequelize:                   |

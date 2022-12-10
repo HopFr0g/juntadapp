@@ -11,8 +11,8 @@ const Ip = sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        ipv4: {
-            field: "ipv4",
+        direccion: {
+            field: "direccion",
             type: Sequelize.STRING(15),
             allowNull: false,
             unique: true

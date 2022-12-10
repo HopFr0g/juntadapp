@@ -2,14 +2,14 @@
 
 create table ip(
     id              integer         primary key,
-    ipv4            varchar(15)     not null,
+    direccion       varchar(15)     not null,
     unique(ipv4)
 );
 
 create table reunion(
     id              integer         primary key,
     id_ip           integer         not null,
-    hash            varchar(32)     not null,
+    hash            varchar(16)     not null,
     nombre          varchar(64)     not null,
     descripcion     varchar(120)    null,
     fecha_creacion  text            not null                default current_timestamp,
@@ -64,7 +64,6 @@ create table persona_mes(
 
 ------------------------  DML  ------------------------
 
-insert into ip(ipv4) values('127.0.0.1');
-insert into ip(ipv4) values('192.168.0.1');
+insert into ip(direccion) values('127.0.0.1');
 
-insert into reunion(id_ip, hash, nombre) values(1, 'z03h6Twjd84J6aWKd9195na0wlEm392n', 'Reunión de Ejemplo');
+insert into reunion(id_ip, hash, nombre) values(1, 'z03h6Twjd84J6aWK', 'Reunión de Ejemplo');

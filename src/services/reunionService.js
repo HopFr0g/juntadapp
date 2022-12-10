@@ -1,9 +1,9 @@
 const constants = require("../util/constants.js");
-const responseBuilder = require("../util/responseBuilder.js");
 const hashGenerator = require("../util/hashGenerator.js");
 
+const ipService = require("../services/ipService.js");
+
 const Reunion = require("../models/Reunion.js");
-const Ip = require("../models/Ip.js");
 
 /* ------------------------------------------------ Métodos privados: ------------------------------------------------ */
 
@@ -20,119 +20,71 @@ const checkUniqueHash = async hash => {
     }
 };
 
-const getIp = async ipAddress => {
-    let idIp;
-    
+const getIdIp = async direccion => {
+    let ip;
     try {
-        // Intentar crear nueva instancia de "ip":
-        let ip = await Ip.create({
-            ipv4: ipAddress
+        ip = await ipService.create({
+            direccion
         });
-        
-        idIp = ip.id;
     } catch (error) {
-        // Si no se pudo crear la instancia, intentar obtener una "ip" existente:
         try {
-            let ip = await Ip.findOne({
-                where: {
-                    ipv4: ipAddress
-                }
-            });
-            
-            idIp = ip.id;
+            ip = await ipService.findByDireccion(direccion);
         } catch (error) {
             throw error;
         }
     }
-    
-    return idIp;
+    return ip.id;
 };
 
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
-const findAllReuniones = async () => {
-    console.log("findAllReuniones enter...");
-    let res;
-    
+const findAll = async () => {
     try {
         let allReuniones = await Reunion.findAll({
-            attributes: ["id", "hash", "nombre", "descripcion", "fechaCreacion"],
-            include: "ip"
+            // attributes: [],
+            include: ["ip"]
         });
-        
-        res = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, allReuniones);
+        return allReuniones;
     } catch (error) {
-        console.error(error);
-        res = responseBuilder.getBadResponse(error, 500);
+        throw error;
     }
-    
-    console.log("findAllReuniones exit...");
-    return res;
 };
 
-const findReunionById = async req => {
-    console.log("findReunionById enter...");
-    let res;
-    
+const findById = async id => {
     try {
-        let id = req.params.id;
-        
         let reunion = await Reunion.findOne({
-            attributes: ["id", "hash", "nombre", "descripcion", "fechaCreacion"],
-            include: "ip",
+            // attributes: [],
+            include: ["ip"],
             where: {
                 id
             }
         });
-        
         if (reunion == null)
             throw constants.ENTIDAD_NO_ENCONTRADA + id;
-        
-        res = responseBuilder.getOkResponse(constants.ENTIDAD_ENCONTRADA + id, reunion);
+        return reunion;
     } catch (error) {
-        console.error(error);
-        res = responseBuilder.getBadResponse(error, 500);
+        throw error;
     }
-    
-    console.log("findReunionById exit...");
-    return res;
 };
 
-const createReunion = async req => {
-    console.log("createReunion enter...");
-    let res;
-    
+const create = async (reunion, direccionIp) => {
     try {
-        let requestIp = req.ip;
-        let requestBody = req.body;
-        let reunion = new Object();
+        let idIp = await getIdIp(direccionIp);
+        let hash = await hashGenerator.getHash(16, checkUniqueHash);
         
-        // Generar hash aleatorio para la reunion:
-        let hash = await hashGenerator.getHash(32, checkUniqueHash);
-        
-        // Obtener instancia de "ip" de la base de datos:
-        let idIp = await getIp(requestIp);
-        
-        // Crear instancia de "reunion" y persistirla:
-        reunion.nombre = requestBody.nombre;
-        reunion.descripcion = requestBody.descripcion;
-        reunion.hash = hash;
         reunion.idIp = idIp;
+        reunion.hash = hash;
         
         reunion = await Reunion.create(reunion);
         
-        res = responseBuilder.getOkResponse(constants.GUARDADO_EXITOSO, reunion);
+        return reunion;
     } catch (error) {
-        console.log(error);
-        res = responseBuilder.getBadResponse(error, 500);
+        throw error;
     }
-    
-    console.log("createReunion exit...");
-    return res;
 };
 
 module.exports = {
-    findAllReuniones,
-    findReunionById,
-    createReunion
+    findAll,
+    findById,
+    create
 };
