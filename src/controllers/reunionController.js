@@ -3,32 +3,15 @@ const responseBuilder = require("../util/responseBuilder.js");
 
 const reunionService = require("../services/reunionService.js");
 
-const findAll = async (req, res) => {
+const findByHash = async (req, res) => {
     let response;
     
     try {
-    list = await reunionService.findAll();
-    
-    if (!Array.isArray(list) || list.length == 0)
-            throw constants.ENTIDADES_NO_ENCONTRADAS;
+        let hash = req.params.hash;
         
-        response = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, list);
-    } catch (error) {
-        response = responseBuilder.getBadResponse(error, 500);
-    }
-    
-    res.status(response.status).json(response);
-};
-
-const findById = async (req, res) => {
-    let response;
-    
-    try {
-        let id = req.params.id;
+        let reunion = await reunionService.findByHash(hash);
         
-        reunion = await reunionService.findById(id);
-        
-        response = responseBuilder.getOkResponse(constants.ENTIDAD_ENCONTRADA + id, reunion);
+        response = responseBuilder.getOkResponse(constants.ENTIDAD_ENCONTRADA + hash, reunion);
     } catch (error) {
         response = responseBuilder.getBadResponse(error, 500);
     }
@@ -43,7 +26,7 @@ const create = async (req, res) => {
         let requestBody = req.body;
         let requestIp = req.ip;
         
-        reunion = await reunionService.create(requestBody, requestIp);
+        let reunion = await reunionService.create(requestBody, requestIp);
         
         response = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + reunion.id, reunion);
     } catch (error) {
@@ -54,7 +37,6 @@ const create = async (req, res) => {
 };
 
 module.exports = {
-    findAll,
-    findById,
+    findByHash,
     create
 };

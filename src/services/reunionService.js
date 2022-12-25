@@ -1,9 +1,8 @@
 const constants = require("../util/constants.js");
 const hashGenerator = require("../util/hashGenerator.js");
 
-const ipService = require("../services/ipService.js");
-
 const Reunion = require("../models/Reunion.js");
+const Ip = require("../models/Ip.js");
 
 /* ------------------------------------------------ Métodos privados: ------------------------------------------------ */
 
@@ -20,30 +19,29 @@ const checkUniqueHash = async hash => {
     }
 };
 
-const getIdIp = async direccion => {
-    let ip;
+const getIdIp = async direccionIp => {
     try {
-        ip = await ipService.create({
-            direccion
+        let ip = await Ip.findOrCreate({
+            where: {
+                direccion: direccionIp
+            },
+            defaults: {
+                direccion: direccionIp
+            }
         });
+        if (Array.isArray(ip))
+            ip = ip[0];
+        return ip.id;
     } catch (error) {
-        try {
-            ip = await ipService.findByDireccion(direccion);
-        } catch (error) {
-            throw error;
-        }
+        throw error;
     }
-    return ip.id;
 };
 
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
 const findAll = async () => {
     try {
-        let allReuniones = await Reunion.findAll({
-            // attributes: [],
-            include: ["ip"]
-        });
+        let allReuniones = await Reunion.findAll();
         return allReuniones;
     } catch (error) {
         throw error;
@@ -53,14 +51,27 @@ const findAll = async () => {
 const findById = async id => {
     try {
         let reunion = await Reunion.findOne({
-            // attributes: [],
-            include: ["ip"],
             where: {
                 id
             }
         });
         if (reunion == null)
             throw constants.ENTIDAD_NO_ENCONTRADA + id;
+        return reunion;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const findByHash = async hash => {
+    try {
+        let reunion = await Reunion.findOne({
+            where: {
+                hash
+            } 
+        });
+        if (reunion == null)
+            throw constants.ENTIDAD_NO_ENCONTRADA + hash;
         return reunion;
     } catch (error) {
         throw error;
@@ -86,5 +97,6 @@ const create = async (reunion, direccionIp) => {
 module.exports = {
     findAll,
     findById,
+    findByHash,
     create
 };

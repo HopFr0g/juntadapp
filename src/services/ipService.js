@@ -7,7 +7,6 @@ const Ip = require("../models/Ip.js");
 const findAll = async () => {
     try {
         let allIps = await Ip.findAll({
-            // attributes: [],
             include: ["reuniones"]
         });
         return allIps;
@@ -19,7 +18,6 @@ const findAll = async () => {
 const findById = async id => {
     try {
         let ip = await Ip.findOne({
-            // attributes: [],
             include: ["reuniones"],
             where: {
                 id
@@ -36,8 +34,6 @@ const findById = async id => {
 const findByDireccion = async direccion => {
     try {
         let ip = await Ip.findOne({
-            // attributes: [],
-            // include: [],
             where: {
                 direccion
             }
