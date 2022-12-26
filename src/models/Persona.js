@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
 const Reunion = require("./Reunion.js");
+const PersonaMes = require("./PersonaMes.js");
 
 const Persona = sequelize.define(
     "persona",
@@ -54,6 +55,22 @@ Reunion.hasMany(
     {
         foreignKey: "idReunion",
         as: "personas"
+    }
+);
+
+PersonaMes.belongsTo(
+    Persona,
+    {
+        foreignKey: "idPersona",
+        foreignKeyConstraint: true
+    }
+);
+
+Persona.hasMany(
+    PersonaMes,
+    {
+        foreignKey: "idPersona",
+        as: "meses"
     }
 );
 

@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
 const Ip = require("./Ip.js");
+const ReunionMes = require("./ReunionMes.js");
 
 const Reunion = sequelize.define(
     "reunion",
@@ -62,6 +63,22 @@ Ip.hasMany(
     {
         foreignKey: "idIp",
         as: "reuniones"
+    }
+);
+
+ReunionMes.belongsTo(
+    Reunion,
+    {
+        foreignKey: "idReunion",
+        foreignKeyConstraint: true
+    }
+);
+
+Reunion.hasMany(
+    ReunionMes,
+    {
+        foreignKey: "idReunion",
+        as: "meses"
     }
 );
 

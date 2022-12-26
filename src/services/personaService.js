@@ -57,6 +57,7 @@ const findAllByHash = async reunionHash => {
     try {
         let idReunion = await getIdReunion(reunionHash);
         let allPersonas = await Persona.findAll({
+            include: ["meses"],
             where: {
                 idReunion
             }

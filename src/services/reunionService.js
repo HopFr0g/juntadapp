@@ -66,6 +66,7 @@ const findById = async id => {
 const findByHash = async hash => {
     try {
         let reunion = await Reunion.findOne({
+            include: ["meses"],
             where: {
                 hash
             } 

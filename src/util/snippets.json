@@ -1,5 +1,4 @@
 {
-	// Snippets para Visual Studio Code:
 	"Node Router Snippet": {
 		"prefix": "Node Router Snippet",
 		"body": [
@@ -136,6 +135,33 @@
 			"\tfindById,",
 			"\tcreate",
 			"};"
+		]
+	},
+	"Node Model Snippet": {
+		"prefix": "Node Model Snippet",
+		"body": [
+			"const Sequelize = require(\"sequelize\");",
+			"const sequelize = require(\"../config/sequelize.js\");",
+			"",
+			"const ${2: /* Nombre del modelo (inicial en mayúscula) */} = sequelize.define(",
+			"\t\"${1: /* Nombre de la tabla */}\",",
+			"\t{",
+			"\t\tid: {",
+			"\t\t\tfield: \"id\",",
+			"\t\t\ttype: Sequelize.INTEGER,",
+			"\t\t\tallowNull: false,",
+			"\t\t\tprimaryKey: true,",
+			"\t\t\tautoIncrement: true",
+			"\t\t}",
+			"\t},",
+			"\t{",
+			"\t\ttimestamps: false,",
+			"\t\tfreezeTableName: true,",
+			"\t\ttableName: \"${1: /* Nombre de la tabla */}\"",
+			"\t}",
+			");",
+			"",
+			"module.exports = ${2: /* Nombre del modelo (inicial en mayúscula) */};"
 		]
 	}
 }
