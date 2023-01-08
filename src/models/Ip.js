@@ -15,7 +15,10 @@ const Ip = sequelize.define(
             field: "direccion",
             type: Sequelize.STRING(15),
             allowNull: false,
-            unique: true
+            unique: true,
+            validate: {
+                isIPv4: true
+            }
         }
     },
     {

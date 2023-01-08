@@ -15,7 +15,11 @@ const Mes = sequelize.define(
             field: "mes",
             type: Sequelize.INTEGER,
             allowNull: false,
-            unique: "ak"
+            unique: "ak",
+            validate: {
+                min: 1,
+                max: 12
+            }
         },
         anio: {
             field: "anio",

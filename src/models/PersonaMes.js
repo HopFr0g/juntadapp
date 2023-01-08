@@ -37,7 +37,11 @@ const PersonaMes = sequelize.define(
             field: "dia_del_mes",
             type: Sequelize.INTEGER,
             allowNull: false,
-            unique: "ak"
+            unique: "ak",
+            validate: {
+                min: 1,
+                max: 31
+            }
         }
     },
     {
