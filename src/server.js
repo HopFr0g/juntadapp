@@ -6,6 +6,15 @@ const app = express();
 const cors = require("cors");
 
 /* ---------------------------------------------------------------------------
+|                                Swagger UI:                                 |
+----------------------------------------------------------------------------*/
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+
+const swaggerConfig = require("./config/swaggerConfig.js");
+
+/* ---------------------------------------------------------------------------
 |                      Express settings y middlewares:                       |
 ----------------------------------------------------------------------------*/
 
@@ -17,6 +26,9 @@ app.use(express.json());
 
 // Acceder a la IP de la request:
 app.set("trust proxy", true);
+
+// Swagger:
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerConfig)));
 
 /* ---------------------------------------------------------------------------
 |        Import de "routes" (endpoints definidos para la aplicación):        |
