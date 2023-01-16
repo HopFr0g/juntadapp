@@ -4,17 +4,17 @@ const constants = {
     ESTADO_ERROR_INTERNO: 500,
     ESTADO_ERROR_CLIENTE: 422,
     // Mensajes generales:
-    ENTIDAD_ENCONTRADA: "Entidad obtenida con éxito. ID: ",
+    ENTIDAD_ENCONTRADA: "Entidad obtenida con éxito",
     ENTIDADES_ENCONTRADAS: "Entidades obtenidas con éxito.",
-    ENTIDAD_NO_ENCONTRADA: "No se encontró la entidad con ID: ",
-    ENTIDADES_NO_ENCONTRADAS: "No se encontraron entidades.",
-    INSERCION_EXITOSA: "Entidad insertada con éxito. ID: ",
-    INSERCION_FALLIDA: "No se pudo insertar la entidad con ID: ",
-    ACTUALIZACION_EXITOSA: "Entidad actualizada con éxito. ID: ",
-    ACTUALIZACION_FALLIDA: "No se pudo actualizar la entidad con ID: ",
-    ELIMINACION_EXITOSA: "Entidad eliminada con éxito. ID: ",
-    ELIMINACION_FALLIDA: "No se pudo eliminar la entidad con ID: ",
-    ERROR_INESPERADO: "Error inesperado en el servidor."
+    ENTIDAD_NO_ENCONTRADA: "No se encontró la entidad",
+    ENTIDADES_NO_ENCONTRADAS: "No se encontraron entidades",
+    INSERCION_EXITOSA: "Entidad insertada con éxito",
+    INSERCION_FALLIDA: "No se pudo insertar la entidad",
+    ACTUALIZACION_EXITOSA: "Entidad actualizada con éxito",
+    ACTUALIZACION_FALLIDA: "No se pudo actualizar la entidad",
+    ELIMINACION_EXITOSA: "Entidad eliminada con éxito",
+    ELIMINACION_FALLIDA: "No se pudo eliminar la entidad",
+    ERROR_INESPERADO: "Error inesperado en el servidor"
 };
 
 module.exports = constants;
