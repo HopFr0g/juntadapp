@@ -14,6 +14,10 @@ Aquí se inicializa *express* y se define qué puerto estará a la escucha de la
 
 Configuración de la conexión del ORM *sequelize* con la base de datos.
 
+## ./src/config/swaggerConfig.js
+
+Configuración de la interfaz Swagger donde se documentan los endpoints, bodies de las request y responses de cada web service.
+
 ## ./src/controllers/
 
 Contiene los métodos que controlan las *requests* realizadas y envían la respuesta al cliente. Los métodos *controller* llamarán al método *service* que corresponda.
@@ -43,6 +47,10 @@ Permite crear métodos para escuchar las *request HTTP* enviadas por los cliente
 ## Sequelize
 
 Es un ORM (Object–relational mapping). Permite representar las tablas de una BD con objetos de Javascript y acceder a métodos de Javascript para realizar consultas o persistir datos en la BD.
+
+## Swagger
+
+Es una herramienta para documentar REST APIs.
 
 # Acerca de
 
