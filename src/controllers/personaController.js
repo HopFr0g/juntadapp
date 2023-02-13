@@ -36,7 +36,9 @@ const create = async (req, res) => {
             nombre
         };
         
-        persona = await personaService.create(persona, reunionHash, requestIp);
+        let meses = requestBody.meses;
+        
+        persona = await personaService.create(persona, reunionHash, requestIp, meses);
         
         response = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + persona.id, persona);
     } catch (error) {

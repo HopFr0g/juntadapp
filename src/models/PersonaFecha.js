@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
-const Mes = require("./Mes.js");
+const Fecha = require("./Fecha.js");
 
-const PersonaMes = sequelize.define(
-    "persona_mes",
+const PersonaFecha = sequelize.define(
+    "persona_fecha",
     {
         id: {
             field: "id",
@@ -23,48 +23,38 @@ const PersonaMes = sequelize.define(
                 key: "id"
             }
         },
-        idMes: {
-            field: "id_mes",
+        idFecha: {
+            field: "id_fecha",
             type: Sequelize.INTEGER,
             allowNull: false,
             unique: "ak",
             references: {
-                model: "Mes",
+                model: "Fecha",
                 key: "id"
-            }
-        },
-        diaDelMes: {
-            field: "dia_del_mes",
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            unique: "ak",
-            validate: {
-                min: 1,
-                max: 31
             }
         }
     },
     {
         timestamps: false,
         freezeTableName: true,
-        tableName: "persona_mes"
+        tableName: "persona_fecha"
     }
 );
 
-PersonaMes.belongsTo(
-    Mes,
+PersonaFecha.belongsTo(
+    Fecha,
     {
-        foreignKey: "idMes",
+        foreignKey: "idFecha",
         foreignKeyConstraint: true
     }
 );
 
-Mes.hasMany(
-    PersonaMes,
+Fecha.hasMany(
+    PersonaFecha,
     {
-        foreignKey: "idMes",
+        foreignKey: "idFecha",
         as: "personas"
     }
 );
 
-module.exports = PersonaMes;
+module.exports = PersonaFecha;

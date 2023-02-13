@@ -68,6 +68,46 @@ const swaggerConfig = {
                         "nombre": {
                             "type": "string",
                             "required": "true"
+                        },
+                        "meses": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PersonaFecha"
+                            }
+                        }
+                    }
+                },
+                "PersonaFecha": {
+                    "type": "object",
+                    "properties": {
+                        "idMes": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "dias": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        }
+                    }
+                },
+                "Fecha": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "idMes": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "diaDelMes": {
+                            "type": "integer",
+                            "format": "int32"
                         }
                     }
                 }
