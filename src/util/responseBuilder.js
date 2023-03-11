@@ -1,5 +1,3 @@
-"use strict";
-
 const getOkResponse = (message, elements) => {
     let res = new Object();
     
@@ -19,12 +17,12 @@ const getOkResponse = (message, elements) => {
     return res;
 }
 
-const getBadResponse = (message, status) => {
+const getBadResponse = (error) => {
     let res = new Object();
     
     res.ok = false;
-    res.status = status;
-    res.message = message;
+    res.status = error.status;
+    res.message = error.name + ": " + error.message;
     res.elements = new Array();
     res.size = 0;
     

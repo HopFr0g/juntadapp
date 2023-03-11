@@ -1,163 +1,111 @@
 const sequelize = require("../config/sequelize.js");
 
+const {InternalServerError, NotFoundError} = require("../errors/errors.js");
 const constants = require("../util/constants.js");
 
 const Persona = require("../models/Persona.js");
-const Ip = require("../models/Ip.js");
-const Reunion = require("../models/Reunion.js");
-const PersonaIp = require("../models/PersonaIp.js");
-const PersonaFecha = require("../models/PersonaFecha.js");
-const Fecha = require("../models/Fecha.js");
 
-/* ------------------------------------------------ Métodos privados: ------------------------------------------------ */
+const ipService = require("../services/ipService.js");
+const personaIpService = require("../services/personaIpService.js");
+const fechaService = require("../services/fechaService.js");
+const personaFechaService = require("../services/personaFechaService.js");
+const reunionService = require("../services/reunionService.js");
 
-const getIdReunion = async reunionHash => {
-    try {
-        let reunion = await Reunion.findOne({
-            where: {
-                hash: reunionHash
-            }
-        });
-        if (reunion == null)
-            throw constants.ENTIDAD_NO_ENCONTRADA + reunionHash;
-        return reunion.id;
-    } catch (error) {
-        throw error;
-    }
-}
+/* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
-const getIdIp = async direccionIp => {
-    try {
-        let ip = await Ip.findOrCreate({
-            where: {
-                direccion: direccionIp
-            },
-            defaults: {
-                direccion: direccionIp
-            }
-        });
-        if (Array.isArray(ip))
-            ip = ip[0];
-        return ip.id;
-    } catch (error) {
-        throw error;
-    }
-};
-
-const getIdFecha = async (idMes, diaDelMes) => {
-    try {
-        let fecha = await Fecha.findOrCreate({
-            where: {
-                idMes: idMes,
-                diaDelMes: diaDelMes
-            }
-        });
-        if (Array.isArray(fecha))
-            fecha = fecha[0];
-        return fecha.id;
-    } catch (error) {
-        throw error;
-    }
-}
+const service = "personaService: ";
 
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
 const findAll = async () => {
+    console.debug(service + "findAll enter...");
+    let personas;
     try {
-        let allPersonas = await Persona.findAll();
-        return allPersonas;
+        personas = await Persona.findAll();
+        console.debug(personas.length + " entidades encontradas.");
     } catch (error) {
-        throw error;
+        console.error(error);
+        throw new InternalServerError(error.message);
     }
+    console.debug(service + "findAll exit.");
+    return personas;
 };
 
 const findAllByHash = async reunionHash => {
+    console.debug(service + "findAllByHash enter...");
+    let personas;
     try {
-        let idReunion = await getIdReunion(reunionHash);
-        let allPersonas = await Persona.findAll({
+        let reunion = await reunionService.findByHash(reunionHash);
+        personas = await Persona.findAll({
             include: ["meses"],
             where: {
-                idReunion
+                idReunion: reunion.id
             }
         });
-        return allPersonas;
+        console.debug(personas.length + " entidades encontradas.");
     } catch (error) {
-        throw error;
+        console.error(error);
+        throw new InternalServerError(error.message);
     }
+    console.debug(service + "findAllByHash exit.");
+    return personas;
 };
 
 const findById = async id => {
+    console.debug(service + "findById enter...");
+    let persona;
     try {
-        let persona = await Persona.findOne({
+        persona = await Persona.findOne({
             where: {
                 id
             }
         });
         if (persona == null)
-            throw constants.ENTIDAD_NO_ENCONTRADA + id;
-        return persona;
+            throw new NotFoundError(constants.ENTIDAD_NO_ENCONTRADA + id);
     } catch (error) {
-        throw error;
+        console.error(error);
+        if (error instanceof NotFoundError)
+            throw error;
+        throw new InternalServerError(error.message);
     }
+    console.debug(service + "findById exit.");
+    return persona;
 };
 
-const create = async (persona, reunionHash, direccionIp, meses) => {
+const create = async (nombre, meses, reunionHash, direccionIp) => {
+    console.debug(service + "create enter...");
+    let persona;
     let transaction = await sequelize.transaction();
-    
     try {
-        // Obtención de ids de entidades asociadas:
-        let idIp = await getIdIp(direccionIp);
-        let idReunion = await getIdReunion(reunionHash);
-        let idFechas = new Array();
+        let ip = await ipService.findOrCreate(direccionIp, transaction);
+        let reunion = await reunionService.findByHash(reunionHash);
+        let fechas = new Array();
         for (let mes of meses) {
             for (let dia of mes.dias) {
-                let idFecha = await getIdFecha(mes.idMes, dia);
-                idFechas.push(idFecha);
+                let fecha = await fechaService.findOrCreate(mes.idMes, dia, transaction);
+                fechas.push(fecha);
             }
         }
-        
-        // Creación de la persona:
-        persona.idReunion = idReunion;
         persona = await Persona.create(
-            persona,
             {
+                idReunion: reunion.id,
+                nombre
+            }, {
                 transaction
             }
         );
+        await personaIpService.create(persona.id, ip.id, transaction);
+        for (let fecha of fechas)
+            await personaFechaService.create(persona.id, fecha.id, transaction);
         
-        // Creación de la persona_ip:
-        let personaIp = {
-            idPersona: persona.id,
-            idIp: idIp
-        };
-        await PersonaIp.create(
-            personaIp,
-            {
-                transaction
-            }
-        );
-        
-        // Creación de las persona_fechas:
-        for (let idFecha of idFechas) {
-            let personaFecha = {
-                idPersona: persona.id,
-                idFecha: idFecha
-            }
-            await PersonaFecha.create(
-                personaFecha,
-                {
-                    transaction
-                }
-            );
-        }
-        
-        // Si no se lanzaron errores, comitear transacción y devolver:
         await transaction.commit();
-        return persona;
     } catch (error) {
         await transaction.rollback();
-        throw error;
+        console.error(error);
+        throw new InternalServerError(error.message);
     }
+    console.debug(service + "create exit.");
+    return persona;
 };
 
 module.exports = {
