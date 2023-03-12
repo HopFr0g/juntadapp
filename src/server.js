@@ -38,6 +38,7 @@ app.use("/api/ip", require("./routes/ipRoutes.js"));
 app.use("/api/reunion", require("./routes/reunionRoutes.js"));
 app.use("/api/persona", require("./routes/personaRoutes.js"));
 app.use("/api/fecha", require("./routes/fechaRoutes.js"));
+app.use("/api/mes", require("./routes/mesRoutes.js"));
 
 /* ---------------------------------------------------------------------------
 |                   Inicialización de Express y Sequelize:                   |

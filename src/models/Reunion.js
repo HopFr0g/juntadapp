@@ -78,7 +78,7 @@ Reunion.hasMany(
     ReunionMes,
     {
         foreignKey: "idReunion",
-        as: "meses"
+        as: "reunionMeses"
     }
 );
 

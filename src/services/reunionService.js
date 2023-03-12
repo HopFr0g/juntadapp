@@ -6,7 +6,7 @@ const constants = require("../util/constants.js");
 const Reunion = require("../models/Reunion.js");
 
 const ipService = require("../services/ipService.js");
-// TODO: Agregar relación entre reunion y meses al crear reunion
+const reunionMesService = require("../services/reunionMesService.js");
 
 const sequelize = require("../config/sequelize.js");
 
@@ -88,7 +88,7 @@ const findByHash = async hash => {
     let reunion;
     try {
         reunion = await Reunion.findOne({
-            include: ["meses"],
+            include: ["reunionMeses"],
             where: {
                 hash
             }
@@ -105,7 +105,7 @@ const findByHash = async hash => {
     return reunion;
 };
 
-const create = async (nombre, descripcion, direccionIp) => {
+const create = async (nombre, descripcion, idMeses, direccionIp) => {
     console.debug(service + "create enter...");
     let reunion;
     let transaction = await sequelize.transaction();
@@ -122,6 +122,8 @@ const create = async (nombre, descripcion, direccionIp) => {
                 transaction
             }
         );
+        for (let idMes of idMeses)
+            await reunionMesService.create(reunion.id, idMes, transaction);
         await transaction.commit();
     } catch (error) {
         await transaction.rollback();

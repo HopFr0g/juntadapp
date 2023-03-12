@@ -55,6 +55,13 @@ const swaggerConfig = {
                         "descripcion": {
                             "type": "string",
                             "required": "false"
+                        },
+                        "idMeses": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int32"
+                            }
                         }
                     }
                 },

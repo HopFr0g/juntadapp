@@ -20,7 +20,7 @@ const create = async (req, res) => {
     try {
         let requestBody = req.body;
         let requestIp = req.ip;
-        let reunion = await reunionService.create(requestBody.nombre, requestBody.descripcion, requestIp);
+        let reunion = await reunionService.create(requestBody.nombre, requestBody.descripcion, requestBody.idMeses, requestIp);
         response = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + reunion.id, reunion);
     } catch (error) {
         response = responseBuilder.getBadResponse(error);

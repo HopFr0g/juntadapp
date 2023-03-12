@@ -1,7 +1,0 @@
-Interacción con múltiples modelos:
-1 - Un service solo llama métodos de su modelo, si necesita interactuar con otro modelo, llama a los métodos del service correspondiente.
-
-Gestión de Errores mejorada:
-1 - Service layer methods devuelven instancias personalizadas de Error
-2 - Las instancias personalizadas de Error se encuentran en
-3 - Controller devuelve errores adecuadamente a partir del Error que reciben

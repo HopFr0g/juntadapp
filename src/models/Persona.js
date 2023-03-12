@@ -70,7 +70,7 @@ Persona.hasMany(
     PersonaFecha,
     {
         foreignKey: "idPersona",
-        as: "fechas"
+        as: "personaFechas"
     }
 );
 

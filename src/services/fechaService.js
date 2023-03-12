@@ -12,7 +12,7 @@ const service = "fechaService: ";
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
 const findOrCreate = async (idMes, diaDelMes, transaction) => {
-    console.debug(serviceName + "findOrCreate enter...")
+    console.debug(service + "findOrCreate enter...")
     let fecha;
     try {
         let [entity, created] = await Fecha.findOrCreate({

@@ -37,7 +37,7 @@ const findAllByHash = async reunionHash => {
     try {
         let reunion = await reunionService.findByHash(reunionHash);
         personas = await Persona.findAll({
-            include: ["meses"],
+            include: ["personaFechas"],
             where: {
                 idReunion: reunion.id
             }

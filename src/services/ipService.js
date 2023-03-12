@@ -14,7 +14,7 @@ const findAll = async () => {
     let ips;
     try {
         ips = await Ip.findAll({
-            include: ["reunion"]
+            include: ["reuniones"]
         });
         console.debug(ips.length + " entidades encontradas.");
     } catch (error) {

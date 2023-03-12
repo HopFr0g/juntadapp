@@ -1,29 +1,31 @@
 const {InternalServerError} = require("../errors/errors.js");
 
-const PersonaFecha = require("../models/PersonaFecha.js");
+const ReunionMes = require("../models/ReunionMes.js");
 
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
-const service = "personaFechaService: ";
+const service = "reunionMesService: ";
 
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
-const create = async (idPersona, idFecha, transaction) => {
+const create = async (idReunion, idMes, transaction) => {
     console.debug(service + "create enter...");
-    let personaFecha;
+    let reunionMes;
     try {
-        personaFecha = await PersonaFecha.create({
-            idPersona,
-            idFecha
-        }, {
-            transaction
-        });
+        reunionMes = await ReunionMes.create(
+            {
+                idReunion,
+                idMes
+            }, {
+                transaction
+            }
+        );
     } catch (error) {
         console.error(error);
         throw new InternalServerError(error.message);
     }
     console.debug(service + "create exit.");
-    return personaFecha;
+    return reunionMes;
 };
 
 module.exports = {

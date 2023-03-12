@@ -1,6 +1,6 @@
 const {InternalServerError} = require("../errors/errors.js");
 
-const PersonaIp = require("../model/PersonaIp.js");
+const PersonaIp = require("../models/PersonaIp.js");
 
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
