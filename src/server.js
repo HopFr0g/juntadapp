@@ -1,3 +1,4 @@
+const enviroment = require("./config/enviroment.js");
 const sequelize = require("./config/sequelize.js");
 
 const express = require("express");
@@ -56,9 +57,11 @@ const main = async () => {
     }
     
     // Poner puerto a la escucha de las requests entrantes:
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`App iniciada en el puerto ${PORT}.`);
+    const port = enviroment.port;
+    if (port == null)
+        throw new Error("Debe definir un puerto en el archivo de variables de entorno.");
+    app.listen(port, () => {
+        console.log(`App iniciada en el puerto ${port}.`);
     });
 }
 
