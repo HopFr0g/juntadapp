@@ -10,6 +10,9 @@ const reunionMesService = require("../services/reunionMesService.js");
 
 const sequelize = require("../config/sequelize.js");
 
+const ReunionMes = require("../models/ReunionMes.js");
+const Mes = require("../models/Mes.js");
+
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
 const service = "reunionService: ";
@@ -88,7 +91,18 @@ const findByHash = async hash => {
     let reunion;
     try {
         reunion = await Reunion.findOne({
-            include: ["reunionMeses"],
+            include: [
+                {
+                    model: ReunionMes,
+                    as: "reunionMes",
+                    include: [
+                        {
+                            model: Mes,
+                            as: "mes"
+                        }
+                    ]
+                }
+            ],
             where: {
                 hash
             }

@@ -44,16 +44,8 @@ const ReunionMes = sequelize.define(
 ReunionMes.belongsTo(
     Mes,
     {
-        foreignKey: "idMes",
-        foreignKeyConstraint: true
-    }
-);
-
-Mes.hasMany(
-    ReunionMes,
-    {
-        foreignKey: "idMes",
-        as: "reuniones"
+        as: "mes",
+        foreignKey: "idMes"
     }
 );
 

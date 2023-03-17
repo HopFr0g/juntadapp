@@ -1,37 +1,42 @@
-const queryFindCoincidencias =
-    "select distinct " +
-    "f.dia_del_mes, " +
-    "m.mes, " +
-    "m.anio " +
-    "from " +
-    "reunion r " +
-    "inner join persona p on p.id_reunion = r.id " +
-    "inner join persona_fecha pf on pf.id_persona = p.id " +
-    "inner join fecha f on f.id = pf.id_fecha " +
-    "inner join mes m on m.id = f.id_mes " +
-    "where " +
-    "r.hash = :hash " +
-    "and (" +
-    "select " +
-    "count(distinct pf2.id_persona) " +
-    "from " +
-    "reunion r2 " +
-    "inner join persona p2 on p2.id_reunion = r2.id " +
-    "inner join persona_fecha pf2 on pf2.id_persona = p2.id " +
-    "where " +
-    "r2.hash = r.hash" +
-    ") = (" +
-    "select " +
-    "count(*) " +
-    "from " +
-    "reunion r2 " +
-    "inner join persona p2 on p2.id_reunion = r2.id " +
-    "inner join persona_fecha pf2 on pf2.id_persona = p2.id " +
-    "where " +
-    "r2.hash = r.hash " +
-    "and pf2.id_fecha = pf.id_fecha" +
-    ");";
+const fs = require("fs");
+
+const {InternalServerError} = require("../errors/errors.js");
+
+/* ---------------------------------------------------- Atributos: --------------------------------------------------- */
+
+let queryFindByCoincidencias = null;
+
+/* ------------------------------------------------ Métodos privados: ------------------------------------------------ */
+
+const getQueryFromFile = fileName => {
+    const filePath = __dirname + "\\..\\queries\\" + fileName;
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, {
+            encoding: "utf-8"
+        }, (error, data) => {
+            if (error)
+                return reject(error);
+            return resolve(data.toString());
+        });
+    });
+};
+
+/* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
+
+const getQueryFindByCoincidencias = async () => {
+    console.debug("getQueryFindByCoincidencias enter...");
+    try {
+        const fileName = "findByCoincidencias.sql";
+        if (queryFindByCoincidencias == null)
+            queryFindByCoincidencias = await getQueryFromFile(fileName);
+    } catch (error) {
+        console.error(error);
+        throw new InternalServerError(error.message);
+    }
+    console.debug("getQueryFindByCoincidencias exit.");
+    return queryFindByCoincidencias;
+};
 
 module.exports = {
-    queryFindCoincidencias
-};
+    getQueryFindByCoincidencias
+}

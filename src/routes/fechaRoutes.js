@@ -6,7 +6,8 @@ const router = express.Router();
 /**
  * @openapi
  * /api/fecha/{hash}:
- *   get:
+ *   post:
+ *     description: Para la Reunion con el hash dado, devuelve las entidades de Fecha en que todas las Persona de dicha Reunion coinciden.
  *     tags:
  *       - Fecha
  *     parameters:
@@ -14,10 +15,16 @@ const router = express.Router();
  *         name: hash
  *         schema:
  *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Coincidencias'
  *     responses:
  *       default:
  *         $ref: '#/components/responses/default'
  */
-router.get("/:hash", fechaController.findCoincidenciasByReunion);
+router.post("/:hash", fechaController.findCoincidenciasByReunion);
 
 module.exports = router;

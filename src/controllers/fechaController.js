@@ -8,7 +8,8 @@ const findCoincidenciasByReunion = async (req, res) => {
     let response;
     try {
         let reunionHash = req.params.hash;
-        let fechas = await fechaService.findCoincidenciasByReunion(reunionHash);
+        let idPersonas = req.body.idPersonas;
+        let fechas = await fechaService.findCoincidenciasByReunion(reunionHash, idPersonas);
         if (!Array.isArray(fechas) || fechas.length == 0)
             throw new NotFoundError(constants.ENTIDADES_NO_ENCONTRADAS);
         response = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, fechas);

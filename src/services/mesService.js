@@ -23,15 +23,15 @@ const findAllProximos = async () => {
                 mes -= 12;
                 anio += 1;
             }
-            [mesEntity, mesCreated] = await Mes.findOrCreate({
+            [entity, created] = await Mes.findOrCreate({
                 where: {
                     mes,
                     anio
                 }
             });
-            if (mesCreated)
+            if (created)
                 log.debug("Se ha creado el mes: " + mes + ", anio: " + anio);
-            meses.push(mesEntity);
+            meses.push(entity);
         }
     } catch (error) {
         console.error(error);

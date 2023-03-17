@@ -14,7 +14,10 @@ const findAll = async () => {
     let ips;
     try {
         ips = await Ip.findAll({
-            include: ["reuniones"]
+            include: {
+                all: true,
+                nested: true
+            }
         });
         console.debug(ips.length + " entidades encontradas.");
     } catch (error) {
@@ -30,7 +33,6 @@ const findById = async id => {
     let ip;
     try {
         ip = await Ip.findOne({
-            include: ["reunion"],
             where: {
                 id
             }
@@ -52,7 +54,6 @@ const findByDireccion = async direccion => {
     let ip;
     try {
         ip = await Ip.findOne({
-            include: ["reunion"],
             where: {
                 direccion
             }

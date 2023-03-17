@@ -44,17 +44,9 @@ const PersonaFecha = sequelize.define(
 PersonaFecha.belongsTo(
     Fecha,
     {
-        foreignKey: "idFecha",
-        foreignKeyConstraint: true
+        as: "fecha",
+        foreignKey: "idFecha"
     }
-);
-
-Fecha.hasMany(
-    PersonaFecha,
-    {
-        foreignKey: "idFecha",
-        as: "personas"
-    }
-);
+)
 
 module.exports = PersonaFecha;

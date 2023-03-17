@@ -1,5 +1,5 @@
 const {InternalServerError} = require("../errors/errors.js");
-const {queryFindCoincidencias} = require("../util/queries.js");
+const queries = require("../util/queries.js");
 
 const Fecha = require("../models/Fecha.js");
 
@@ -32,17 +32,22 @@ const findOrCreate = async (idMes, diaDelMes, transaction) => {
     return fecha;
 }
 
-const findCoincidenciasByReunion = async reunionHash => {
+const findCoincidenciasByReunion = async (reunionHash, idPersonas) => {
     console.debug(service + "findCoincidenciasByReunion enter...");
     let fechas = null;
     try {
         fechas = await sequelize.query(
-            queryFindCoincidencias,
+            // Sequelize no realiza el mapeo de las tuplas devueltas por esta query al modelo Fecha automáticamente, ya que no se definió la setting "model: Fecha" ni "mapToModel: true".
+            // En su lugar, la query SQL le da un alias a cada elemento donde se usa un "." para definir cuáles atributos pertenecen a un objeto anidado (nested object).
+            // Para que esto funcione se necesita del paquete "dottie" y definir la setting "nest: true" aquí.
+            await queries.getQueryFindByCoincidencias(),
             {
-                type: sequelize.QueryTypes.SELECT,
                 replacements: {
-                    hash: reunionHash
-                }
+                    reunionHash,
+                    idPersonas
+                },
+                type: sequelize.QueryTypes.SELECT,
+                nest: true
             }
         );
         console.debug(fechas.length + " entidades encontradas.");

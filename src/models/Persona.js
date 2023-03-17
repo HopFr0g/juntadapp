@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
-const Reunion = require("./Reunion.js");
 const PersonaFecha = require("./PersonaFecha.js");
 
 const Persona = sequelize.define(
@@ -42,35 +41,11 @@ const Persona = sequelize.define(
     }
 );
 
-Persona.belongsTo(
-    Reunion,
-    {
-        foreignKey: "idReunion",
-        foreignKeyConstraint: true
-    }
-);
-
-Reunion.hasMany(
-    Persona,
-    {
-        foreignKey: "idReunion",
-        as: "personas"
-    }
-);
-
-PersonaFecha.belongsTo(
-    Persona,
-    {
-        foreignKey: "idPersona",
-        foreignKeyConstraint: true
-    }
-);
-
 Persona.hasMany(
     PersonaFecha,
     {
-        foreignKey: "idPersona",
-        as: "personaFechas"
+        as: "personaFecha",
+        foreignKey: "idPersona"
     }
 );
 

@@ -11,6 +11,10 @@ const fechaService = require("../services/fechaService.js");
 const personaFechaService = require("../services/personaFechaService.js");
 const reunionService = require("../services/reunionService.js");
 
+const PersonaFecha = require("../models/PersonaFecha.js");
+const Fecha = require("../models/Fecha.js");
+const Mes = require("../models/Mes.js");
+
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
 const service = "personaService: ";
@@ -37,7 +41,24 @@ const findAllByHash = async reunionHash => {
     try {
         let reunion = await reunionService.findByHash(reunionHash);
         personas = await Persona.findAll({
-            include: ["personaFechas"],
+            include: [
+                {
+                    model: PersonaFecha,
+                    as: "personaFecha",
+                    include: [
+                        {
+                            model: Fecha,
+                            as: "fecha",
+                            include: [
+                                {
+                                    model: Mes,
+                                    as: "mes"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
             where: {
                 idReunion: reunion.id
             }

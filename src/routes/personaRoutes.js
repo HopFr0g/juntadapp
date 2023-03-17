@@ -7,6 +7,7 @@ const router = express.Router();
  * @openapi
  * /api/persona/{hash}:
  *   get:
+ *     description: Obtiene todas las entidades de Persona pertenecientes a la Reunion con el hash dado.
  *     tags:
  *       - Persona
  *     parameters:
@@ -24,6 +25,7 @@ router.get("/:hash", personaController.findAllByHash);
  * @openapi
  * /api/persona:
  *   post:
+ *     description: Crea una nueva Persona.
  *     tags:
  *       - Persona
  *     requestBody:

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
-const Ip = require("./Ip.js");
+const Persona = require("./Persona.js");
 const ReunionMes = require("./ReunionMes.js");
 
 const Reunion = sequelize.define(
@@ -50,35 +50,19 @@ const Reunion = sequelize.define(
     }
 );
 
-Reunion.belongsTo(
-    Ip,
+Reunion.hasMany(
+    Persona,
     {
-        foreignKey: "idIp",
-        foreignKeyConstraint: true
-    }
-);
-
-Ip.hasMany(
-    Reunion,
-    {
-        foreignKey: "idIp",
-        as: "reuniones"
-    }
-);
-
-ReunionMes.belongsTo(
-    Reunion,
-    {
-        foreignKey: "idReunion",
-        foreignKeyConstraint: true
+        as: "persona",
+        foreignKey: "idReunion"
     }
 );
 
 Reunion.hasMany(
     ReunionMes,
     {
-        foreignKey: "idReunion",
-        as: "reunionMeses"
+        as: "reunionMes",
+        foreignKey: "idReunion"
     }
 );
 

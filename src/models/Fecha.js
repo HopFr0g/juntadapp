@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize.js");
 
+const Mes = require("./Mes.js");
+
 const Fecha = sequelize.define(
     "fecha",
     {
@@ -36,6 +38,14 @@ const Fecha = sequelize.define(
         timestamps: false,
         freezeTableName: true,
         tableName: "fecha"
+    }
+);
+
+Fecha.belongsTo(
+    Mes,
+    {
+        foreignKey: "idMes",
+        as: "mes"
     }
 );
 

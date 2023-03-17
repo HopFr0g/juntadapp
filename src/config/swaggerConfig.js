@@ -117,6 +117,18 @@ const swaggerConfig = {
                             "format": "int32"
                         }
                     }
+                },
+                "Coincidencias": {
+                    "type": "object",
+                    "properties": {
+                        "idPersonas": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        }
+                    }
                 }
             },
             "responses": {

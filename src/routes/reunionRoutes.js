@@ -7,6 +7,7 @@ const router = express.Router();
  * @openapi
  * /api/reunion/{hash}:
  *   get:
+ *     description: Obtiene toda la información de la Reunion con el hash dado.
  *     tags:
  *       - Reunion
  *     parameters:
@@ -24,6 +25,7 @@ router.get("/:hash", reunionController.findByHash);
  * @openapi
  * /api/reunion:
  *   post:
+ *     description: Crea una nueva Reunion.
  *     tags:
  *       - Reunion
  *     requestBody:
