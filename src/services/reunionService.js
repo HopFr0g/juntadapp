@@ -12,6 +12,7 @@ const sequelize = require("../config/sequelize.js");
 
 const ReunionMes = require("../models/ReunionMes.js");
 const Mes = require("../models/Mes.js");
+const Persona = require("../models/Persona.js");
 
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
@@ -51,41 +52,6 @@ const createHash = async length => {
 
 /* ------------------------------------------------ Métodos públicos: ------------------------------------------------ */
 
-const findAll = async () => {
-    console.debug(service + "findAll enter...");
-    let reuniones;
-    try {
-        reuniones = await Reunion.findAll();
-        console.debug(reuniones.length + " entidades encontradas.");
-    } catch (error) {
-        console.error(error);
-        throw new InternalServerError(error.message);
-    }
-    console.debug(service + "findAll exit.");
-    return reuniones;
-};
-
-const findById = async id => {
-    console.debug(service + "findById enter...");
-    let reunion;
-    try {
-        reunion = await Reunion.findOne({
-            where: {
-                id
-            }
-        });
-        if (reunion == null)
-            throw new NotFoundError(constants.ENTIDAD_NO_ENCONTRADA + id);
-    } catch (error) {
-        console.error(error);
-        if (error instanceof NotFoundError)
-            throw error;
-        throw new InternalServerError(error.message);
-    }
-    console.debug(service + "findById exit.");
-    return reunion;
-};
-
 const findByHash = async hash => {
     console.debug(service + "findByHash enter...");
     let reunion;
@@ -101,6 +67,9 @@ const findByHash = async hash => {
                             as: "mes"
                         }
                     ]
+                }, {
+                    model: Persona,
+                    as: "persona"
                 }
             ],
             where: {
@@ -149,8 +118,6 @@ const create = async (nombre, descripcion, idMeses, direccionIp) => {
 };
 
 module.exports = {
-    findAll,
-    findById,
     findByHash,
     create
 };
