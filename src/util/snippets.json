@@ -64,7 +64,7 @@
 			"\t\t",
 			"\t\t${1: /* Nombre del modelo (inicial en minúscula) */} = await ${1: /* Nombre del modelo (inicial en minúscula) */}Service.create(requestBody, requestIp);",
 			"\t\t",
-			"\t\tresponse = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + ${1: /* Nombre del modelo (inicial en minúscula) */}.id, ${1: /* Nombre del modelo (inicial en minúscula) */});",
+			"\t\tresponse = responseBuilder.getOkResponse(constants.CREACION_EXITOSA + ${1: /* Nombre del modelo (inicial en minúscula) */}.id, ${1: /* Nombre del modelo (inicial en minúscula) */});",
 			"\t} catch (error) {",
 			"\t\tresponse = responseBuilder.getBadResponse(error, 500);",
 			"\t}",

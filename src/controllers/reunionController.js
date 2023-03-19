@@ -21,7 +21,7 @@ const create = async (req, res) => {
         let requestBody = req.body;
         let requestIp = req.ip;
         let reunion = await reunionService.create(requestBody.nombre, requestBody.descripcion, requestBody.idMeses, requestIp);
-        response = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + reunion.id, reunion);
+        response = responseBuilder.getOkResponse(constants.CREACION_EXITOSA + reunion.id, reunion);
     } catch (error) {
         response = responseBuilder.getBadResponse(error);
     }

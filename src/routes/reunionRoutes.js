@@ -1,4 +1,5 @@
 const reunionController = require("../controllers/reunionController.js");
+const reunionValidator = require("../validator/reunionValidator.js");
 
 const express = require("express");
 const router = express.Router();
@@ -38,6 +39,6 @@ router.get("/:hash", reunionController.findByHash);
  *       default:
  *         $ref: '#/components/responses/default'
  */
-router.post("/", reunionController.create);
+router.post("/", reunionValidator.create, reunionController.create);
 
 module.exports = router;

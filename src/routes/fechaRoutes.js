@@ -1,4 +1,5 @@
 const fechaController = require("../controllers/fechaController.js");
+const fechaValidator = require("../validator/fechaValidator.js");
 
 const express = require("express");
 const router = express.Router();
@@ -25,6 +26,6 @@ const router = express.Router();
  *       default:
  *         $ref: '#/components/responses/default'
  */
-router.post("/:hash", fechaController.findCoincidenciasByReunion);
+router.post("/:hash", fechaValidator.findCoincidenciasByReunion, fechaController.findCoincidenciasByReunion);
 
 module.exports = router;

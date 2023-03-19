@@ -1,4 +1,5 @@
 const personaController = require("../controllers/personaController.js");
+const personaValidator = require("../validator/personaValidator.js");
 
 const express = require("express");
 const router = express.Router();
@@ -38,6 +39,6 @@ router.get("/:hash", personaController.findAllByHash);
  *       default:
  *         $ref: '#/components/responses/default'
  */
-router.post("/", personaController.create);
+router.post("/", personaValidator.create, personaController.create);
 
 module.exports = router;

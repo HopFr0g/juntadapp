@@ -19,14 +19,14 @@ const swaggerConfig = require("./config/swaggerConfig.js");
 |                      Express settings y middlewares:                       |
 ----------------------------------------------------------------------------*/
 
+// Acceder a la IP de la request:
+app.set("trust proxy", true);
+
 // Filtro CORS (Para servidores públicos):
 app.use(cors({origin: "*"}));
 
 // Acceder al body de la request:
 app.use(express.json());
-
-// Acceder a la IP de la request:
-app.set("trust proxy", true);
 
 // Swagger:
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerConfig)));

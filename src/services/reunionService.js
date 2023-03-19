@@ -94,7 +94,7 @@ const create = async (nombre, descripcion, idMeses, direccionIp) => {
     let transaction = await sequelize.transaction();
     try {
         let ip = await ipService.findOrCreate(direccionIp, transaction);
-        let hash = await createHash(16);
+        let hash = await createHash(constants.DIMENSION_HASH);
         reunion = await Reunion.create(
             {
                 idIp: ip.id,

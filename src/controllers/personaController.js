@@ -24,7 +24,7 @@ const create = async (req, res) => {
         let requestBody = req.body;
         let requestIp = req.ip;
         let persona = await personaService.create(requestBody.nombre, requestBody.meses, requestBody.reunionHash, requestIp);
-        response = responseBuilder.getOkResponse(constants.INSERCION_EXITOSA + persona.id, persona);
+        response = responseBuilder.getOkResponse(constants.CREACION_EXITOSA + persona.id, persona);
     } catch (error) {
         response = responseBuilder.getBadResponse(error);
     }
