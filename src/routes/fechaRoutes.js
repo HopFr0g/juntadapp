@@ -28,4 +28,22 @@ const router = express.Router();
  */
 router.post("/:hash", fechaValidator.findCoincidenciasByReunion, fechaController.findCoincidenciasByReunion);
 
+/**
+ * @openapi
+ * /api/fecha/{hash}:
+ *   get:
+ *     description: Para la Reunion con el hash dado, devuelve todas sus fechas junto a la cantidad de personas que coinciden ese día.
+ *     tags:
+ *       - Fecha
+ *     parameters:
+ *       - in: path
+ *         name: hash
+ *         schema:
+ *           type: string
+ *     responses:
+ *       default:
+ *         $ref: '#/components/responses/default'
+ */
+router.get("/:hash", fechaController.findCoincidenciasDiariasByReunion);
+
 module.exports = router;

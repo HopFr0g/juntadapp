@@ -5,6 +5,7 @@ const {InternalServerError} = require("../errors/errors.js");
 /* ---------------------------------------------------- Atributos: --------------------------------------------------- */
 
 let queryFindByCoincidencias = null;
+let queryFindCoincidenciasDiarias = null;
 
 /* ------------------------------------------------ Métodos privados: ------------------------------------------------ */
 
@@ -37,6 +38,21 @@ const getQueryFindByCoincidencias = async () => {
     return queryFindByCoincidencias;
 };
 
+const getQueryFindCoincidenciasDiarias = async () => {
+    console.debug("getQueryFindCoincidenciasDiarias enter...");
+    try {
+        const fileName = "findCoincidenciasDiarias.sql";
+        if (queryFindCoincidenciasDiarias == null)
+            queryFindCoincidenciasDiarias = await getQueryFromFile(fileName);
+    } catch (error) {
+        console.error(error);
+        throw new InternalServerError(error.message);
+    }
+    console.debug("getQueryFindCoincidenciasDiarias exit.");
+    return queryFindCoincidenciasDiarias;
+}
+
 module.exports = {
-    getQueryFindByCoincidencias
+    getQueryFindByCoincidencias,
+    getQueryFindCoincidenciasDiarias
 }

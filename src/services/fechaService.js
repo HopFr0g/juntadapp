@@ -59,7 +59,31 @@ const findCoincidenciasByReunion = async (reunionHash, idPersonas) => {
     return fechas;
 }
 
+const findCoincidenciasDiariasByReunion = async reunionHash => {
+    console.debug(service + "findCoincidenciasDiariasByReunion enter...");
+    let fechas = null;
+    try {
+        fechas = await sequelize.query(
+            await queries.getQueryFindCoincidenciasDiarias(),
+            {
+                replacements: {
+                    reunionHash
+                },
+                type: sequelize.QueryTypes.SELECT,
+                nest: true
+            }
+        );
+        console.debug(fechas.length + " entidades encontradas.");
+    } catch (error) {
+        console.error(error);
+        throw new InternalServerError(error.message);
+    }
+    console.debug(service + "findCoincidenciasDiariasByReunion exit.");
+    return fechas;
+}
+
 module.exports = {
     findOrCreate,
-    findCoincidenciasByReunion
+    findCoincidenciasByReunion,
+    findCoincidenciasDiariasByReunion
 };

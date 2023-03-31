@@ -1,27 +1,26 @@
-select distinct
-	*
+select
+	f.id as `id`,
+	f.dia_del_mes as `diaDelMes`,
+	m.id as `mes.id`,
+	m.mes as `mes.mes`,
+	m.anio as `mes.anio`
 from
 	fecha f
+	inner join mes m on m.id = f.id_mes
+	inner join persona_fecha pf on pf.id_fecha = f.id
+	inner join persona p on p.id = pf.id_persona
+	inner join reunion r on r.id = p.id_reunion
 where
-	f.id in (
+	r.hash = :reunionHash
+	and p.id in (:idPersonas)
+group by
+	f.id
+having
+	count(f.id) = (
 		select
-			pf.id_fecha
+			count(*)
 		from
-			persona_fecha pf
-			inner join persona p on pf.id_persona = p.id
-			inner join reunion r on p.id_reunion = r.id
+			persona
 		where
-			r.hash = :reunionHash
-			and pf.id_persona in (:idPersonas)
-		group by
-			pf.id_fecha
-		having
-			count(distinct pf.id_persona) = (
-				select
-					count(distinct id_persona)
-				from
-					persona_fecha
-				where
-					id_persona in (:idPersonas)
-			)
+			id in (:idPersonas)
 	);

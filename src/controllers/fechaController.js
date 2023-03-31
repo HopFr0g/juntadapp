@@ -19,6 +19,21 @@ const findCoincidenciasByReunion = async (req, res) => {
     res.status(response.status).json(response);
 };
 
+const findCoincidenciasDiariasByReunion = async (req, res) => {
+    let response;
+    try {
+        let reunionHash = req.params.hash;
+        let fechas = await fechaService.findCoincidenciasDiariasByReunion(reunionHash);
+        if (!Array.isArray(fechas) || fechas.length == 0)
+            throw new NotFoundError(constants.ENTIDADES_NO_ENCONTRADAS);
+        response = responseBuilder.getOkResponse(constants.ENTIDADES_ENCONTRADAS, fechas);
+    } catch (error) {
+        response = responseBuilder.getBadResponse(error);
+    }
+    res.status(response.status).json(response);
+}
+
 module.exports = {
-    findCoincidenciasByReunion
+    findCoincidenciasByReunion,
+    findCoincidenciasDiariasByReunion
 };
